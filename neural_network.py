@@ -416,6 +416,6 @@ def test_lung_data():
     print "Accuracy:", accuracy
 
 if __name__=="__main__":
-    # test_predict()
+     test_predict()
     # test_nn()
-    test_lung_data()
+    #test_lung_data()

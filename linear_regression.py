@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import metrics, datasets, preprocessing
 from util import load_data, feature_normalize
+from numpy.linalg import inv
+from numpy import dot
 
 class linear_regression:
     def compute_cost(self, X, y, theta):
@@ -83,6 +85,7 @@ def test_lr_boston():
 
     (theta, J) = lr.gradient_descnet(train, ytrain, theta, alpha, iteration)
 
+
     print theta, '\n'
 
     plt.plot(J, linewidth=2)
@@ -119,6 +122,9 @@ def test_lr_data():
     (theta, J) = lr.gradient_descnet(X, y, theta, alpha, iteration)
 
     print theta, '\n'
+
+    theta_eq =  dot(dot(inv(dot(X.T, X)), X.T), y) #normal equation
+    print theta_eq, '\n'
 
     plt.plot(J, linewidth=2)
     plt.xlabel('Iteration, i', fontsize=16)

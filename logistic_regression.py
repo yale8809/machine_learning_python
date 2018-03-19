@@ -98,14 +98,17 @@ class logistic_regression:
 
 def test_lg():
     lg = logistic_regression()
-    (X, y) = load_data(r'lg_data.txt')
+    (X, y) = load_data(r'lg_reg_data.txt')
+    #(X, y) = load_data(r'lg_data.txt')
 
     plot_data(X, y)
 
     # (X, mu, sigma) = feature_normalize(X)
     m = y.shape[0]
     # X = np.reshape(X, (m,1))
-    X = np.concatenate((np.ones((m,1),np.float),X), axis=1)
+    #X = np.concatenate((np.ones((m,1),np.float),X_temp), axis=1)
+
+    X = map_feature(X[:,0], X[:,1])
     print X
     n = X.shape[1]
     theta = np.zeros(n)
@@ -115,7 +118,7 @@ def test_lg():
     print 'Cost at initial theta (zeros): %f\n' % cost
     print 'Gradient at initial theta (zeros):', grad
 
-    Result = op.minimize(fun = lg.cost_function, x0 = theta, args = (X, y), method = 'TNC',
+    Result = op.minimize(fun = lg.cost_function, x0 = theta, args = (X, y), method = 'BFGS',
                                  jac = lg.gradient_function)
     optimal_theta = Result.x
 
@@ -146,8 +149,8 @@ def test_lg_reg():
     print 'Cost at initial theta (zeros): %f\n' % cost
     print 'Gradient at initial theta (zeros):', grad
 
-    Result = op.minimize(fun = lg.cost_function_reg, x0 = theta, args = (X, y, lamda), method = 'BFGS')#,
-                                 # jac = lg.gradient_function_reg)
+    Result = op.minimize(fun = lg.cost_function_reg, x0 = theta, args = (X, y, lamda), method = 'BFGS',
+                                  jac = lg.gradient_function_reg)
     optimal_theta = Result.x
 
     print optimal_theta
@@ -256,6 +259,6 @@ def one_vs_all(X, y, num_labels, lamda):
     return all_theta
 
 if __name__=="__main__":
-    # test_lg()
-    # test_lg_reg()
+    #test_lg()
+     #test_lg_reg()
     test_lg_one_vs_all()
